@@ -1,0 +1,93 @@
+;
+; MouseDriverLowerKMDF.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Mouse ; TODO: specify appropriate Class
+ClassGuid={4D36E96F-E325-11CE-BFC1-08002BE10318} ; TODO: specify appropriate ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=MouseDriverLowerKMDF.cat
+DriverVer = 07/26/2023,19.57.13.944
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+MouseDriverLowerKMDF_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+MouseDriverLowerKMDF.sys  = 1,,
+;
+
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%MouseDriverLowerKMDF.DeviceDesc%=MouseDriverLowerKMDF_Device, Root\MouseDriverLowerKMDF ; TODO: edit hw-id
+
+[MouseDriverLowerKMDF_Device.NT]
+Include = MSMOUSE.INF
+Needs = HID_Mouse_Inst.NT
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+MouseDriverLowerKMDF.sys
+
+;-------------- Service installation
+[MouseDriverLowerKMDF_Device.NT.Services]
+AddService = MouseDriverLowerKMDF,  , MouseDriverLowerKMDF_Service_Inst
+Include = MSMOUSE.INF
+Needs = HID_Mouse_Inst.NT.Services
+
+; -------------- MouseDriverLowerKMDF driver install sections
+[MouseDriverLowerKMDF_Service_Inst]
+DisplayName    = %MouseDriverLowerKMDF.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\MouseDriverLowerKMDF.sys
+
+;
+;--- MouseDriverLowerKMDF_Device Coinstaller installation ------
+;
+
+[MouseDriverLowerKMDF_Device.NT.HW]
+Include = MSMOUSE.INF
+Needs = HID_Mouse_Inst.NT.Hw
+AddReg = MouseDriverLowerKMDF_Device.HW.AddReg
+
+[MouseDriverLowerKMDF_Device.HW.AddReg]
+;HKR,,"UpperFilters",0x00010000,"MouseDriverLowerKMDF"
+HKR,,"LowerFilters",0x00010000,"MouseDriverLowerKMDF"
+
+[MouseDriverLowerKMDF_Device.NT.CoInstallers]
+AddReg=MouseDriverLowerKMDF_Device_CoInstaller_AddReg
+CopyFiles=MouseDriverLowerKMDF_Device_CoInstaller_CopyFiles
+
+[MouseDriverLowerKMDF_Device_CoInstaller_AddReg]
+;
+
+
+[MouseDriverLowerKMDF_Device_CoInstaller_CopyFiles]
+;
+
+
+[MouseDriverLowerKMDF_Device.NT.Wdf]
+KmdfService =  MouseDriverLowerKMDF, MouseDriverLowerKMDF_wdfsect
+[MouseDriverLowerKMDF_wdfsect]
+KmdfLibraryVersion = 1.15
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "MouseDriverLowerKMDF Installation Disk"
+MouseDriverLowerKMDF.DeviceDesc = "MouseDriverLowerKMDF Device"
+MouseDriverLowerKMDF.SVCDESC = "MouseDriverLowerKMDF Service"
