@@ -8,7 +8,7 @@ Class=Mouse ; TODO: specify appropriate Class
 ClassGuid={4D36E96F-E325-11CE-BFC1-08002BE10318} ; TODO: specify appropriate ClassGuid
 Provider=%ManufacturerName%
 CatalogFile=MouseDriverLowerKMDF.cat
-DriverVer = 07/26/2023,19.57.13.944
+DriverVer = 07/26/2023,20.5.16.185
 PnpLockdown=1
 
 [DestinationDirs]
@@ -31,7 +31,7 @@ MouseDriverLowerKMDF.sys  = 1,,
 %ManufacturerName%=Standard,NTamd64
 
 [Standard.NTamd64]
-%MouseDriverLowerKMDF.DeviceDesc%=MouseDriverLowerKMDF_Device, Root\MouseDriverLowerKMDF ; TODO: edit hw-id
+%MouseDriverLowerKMDF.DeviceDesc%=MouseDriverLowerKMDF_Device, HID_DEVICE_SYSTEM_MOUSE ; TODO: edit hw-id
 
 [MouseDriverLowerKMDF_Device.NT]
 Include = MSMOUSE.INF
