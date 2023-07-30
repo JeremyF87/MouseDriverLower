@@ -8,7 +8,7 @@ Class=Mouse ; TODO: specify appropriate Class
 ClassGuid={4D36E96F-E325-11CE-BFC1-08002BE10318} ; TODO: specify appropriate ClassGuid
 Provider=%ManufacturerName%
 CatalogFile=MouseDriverLowerKMDF.cat
-DriverVer = 07/30/2023,14.32.40.781
+DriverVer = 07/30/2023,17.46.19.784
 PnpLockdown=1
 
 [DestinationDirs]
